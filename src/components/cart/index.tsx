@@ -1,8 +1,11 @@
 import { createRef, SyntheticEvent, useRef } from "react";
+import { useSetRecoilState } from "recoil";
 import { CartType } from "../../graphql/cart";
+import { checkedCartState } from "../../recoils/cart";
 import CartItem from "./item";
 
 const CartList = ({ items }: { items: CartType[] }) => {
+  const setCheckedCartData = useSetRecoilState(checkedCartState);
   const formRef = useRef<HTMLFormElement>(null);
   const chekcboxRefs = items.map(() => createRef<HTMLInputElement>());
 
@@ -24,6 +27,12 @@ const CartList = ({ items }: { items: CartType[] }) => {
       formRef.current.querySelector<HTMLInputElement>(".select-all")!.checked =
         allChecked;
     }
+
+    const checkedItems = chekcboxRefs.reduce<CartType[]>((res, ref, i) => {
+      if (ref.current!.checked) res.push(items[i]);
+      return res;
+    }, []);
+    setCheckedCartData(checkedItems);
   };
 
   return (

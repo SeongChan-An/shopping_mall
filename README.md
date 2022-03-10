@@ -40,5 +40,27 @@ react / react-router / react-query / typescript / vite / express / firebase / ve
   ```
 
 - 명세를 미리 만들기
+
   - mock, msw
     : Server 구현 전에 임시로
+
+- GraphQL 장점
+  : 서버에서만 필요한 데이터를 받지 않을 수 있음
+  : 필요한 데이터만 요청할 수 있음
+  rest vs graphql
+
+  ```jsx
+  // 사실상 request 2번
+  Promise.all(product, user)
+
+  // 쿼리를 통해 한번에 받아올 수 있다.
+  Query {
+    product {
+
+    }
+
+    user {
+
+    }
+  }
+  ```
