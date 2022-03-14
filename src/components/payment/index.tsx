@@ -6,13 +6,9 @@ import { EXECUTE_PAY } from "../../graphql/payment";
 import { graphqlFetcher } from "../../queryClient";
 import { checkedCartState } from "../../recoils/cart";
 import WillPay from "../willPay";
-import PaymentModal from './modal'
+import PaymentModal from "./modal";
 
-type PayInfo = {
-  id: string;
-  amount: number;
-};
-type PaymentInfos = PayInfo[];
+type PaymentInfos = String[];
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -28,7 +24,7 @@ const Payment = () => {
   };
 
   const proceed = () => {
-    const payInfos = checkedCartData.map(({ id, amount }) => ({ id, amount }));
+    const payInfos = checkedCartData.map(({ id }) => id);
     executePay(payInfos);
     setCheckedCartData([]);
 
