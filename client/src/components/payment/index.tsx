@@ -27,8 +27,8 @@ const Payment = () => {
     const payInfos = checkedCartData.map(({ id }) => id);
     executePay(payInfos);
     setCheckedCartData([]);
-
-    // navigate('/products', { replace: true })
+    alert("결제 완료되었습니다.");
+    navigate("/products", { replace: true });
   };
 
   const cancel = () => {

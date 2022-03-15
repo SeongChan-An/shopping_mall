@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
     "target": "ES5",
     "lib": ["ESNext"],
@@ -14,5 +15,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }
