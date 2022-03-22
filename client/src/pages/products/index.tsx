@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useQuery, useInfiniteQuery } from "react-query";
-import useIntersection from "../../components/hooks/useIntersetction";
+import useIntersection from "../../hooks/useIntersection";
 import ProductList from "../../components/product/list";
 import GET_PRODUCTS, { Products } from "../../graphql/products";
 import { graphqlFetcher, QueryKeys } from "../../queryClient";
