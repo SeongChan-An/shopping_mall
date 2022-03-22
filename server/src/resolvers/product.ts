@@ -2,42 +2,23 @@ import { DBField, writeDB } from "./../dbController";
 import { Products, Resolver } from "./types";
 import { v4 as uuid } from "uuid";
 
-// const mockProducts = (() =>
-//   Array.from({ length: 20 }).map((_, i) => ({
-//     id: i + 1 + "",
-//     imageUrl: `https://picsum.photos/id/${i + 10}/200/150`,
-//     price: 50000,
-//     title: `임시상품${i + 1}`,
-//     description: `임시상세내용${i + 1}`,
-//     createdAt: new Date(1645735501883 + i * 1000 * 60 * 60 * 10).toString(),
-//   })))();
-
-// const productResolver: Resolver = {
-//   Query: {
-//     products: (parent, args, context, info) => {
-//       return mockProducts;
-//     },
-//     product: (parent, { id }, context, info) => {
-//       const found = mockProducts.find((item) => item.id === id);
-//       if (found) return found;
-//       return null;
-//     },
-//   },
-// };
-
 const setJSON = (data: Products) => writeDB(DBField.PRODUCTS, data);
 
 const productResolver: Resolver = {
   Query: {
-    products: (parent, { cursor = "" }, { db }) => {
+    products: (parent, { cursor = "", showDeleted = false }, { db }) => {
+      const [hasCreatedAt, noCreatedAt] = [
+        db.products
+          .filter((product) => !!product.createdAt)
+          .sort((a, b) => b.createdAt! - a.createdAt!),
+        db.products.filter((product) => !product.createdAt),
+      ];
+      const filteredDB = showDeleted
+        ? [...hasCreatedAt, ...noCreatedAt]
+        : hasCreatedAt;
       const fromIndex =
-        db.products.findIndex((product) => product.id === cursor) + 1;
-      return db.products.slice(fromIndex, fromIndex + 15) || [];
-    },
-    product: (parent, { id }, { db }) => {
-      const found = db.products.find((item) => item.id === id);
-      if (found) return found;
-      return null;
+        filteredDB.findIndex((product) => product.id === cursor) + 1;
+      return filteredDB.slice(fromIndex, fromIndex + 15) || [];
     },
   },
   Mutation: {

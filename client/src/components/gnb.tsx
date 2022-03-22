@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 const Gnb = () => (
   <nav className="gnb">
@@ -12,8 +12,11 @@ const Gnb = () => (
       <li>
         <Link to="/cart">장바구니</Link>
       </li>
+      <li>
+        <Link to="/admin">어드민</Link>
+      </li>
     </ul>
   </nav>
-)
+);
 
-export default Gnb
+export default Gnb;
